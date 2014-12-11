@@ -1,4 +1,6 @@
 class AuthenticationController < ApplicationController
+  skip_before_action :require_login
+
   def create
     user = User.find_by_email(params[:email])
 
@@ -7,13 +9,12 @@ class AuthenticationController < ApplicationController
       redirect_to root_path
     else
       flash[:alert] = "Username/Password is invalid"
-      render :new 
+      render :new
     end
   end
 
   def destroy
     session.clear
     redirect_to root_path
-
   end
 end
